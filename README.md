@@ -1,7 +1,7 @@
 plasticine
 ==========
 
-[![Build Status](https://drone.io/github.com/starchou/plasticine/status.png)]
+![Build Status](https://drone.io/github.com/starchou/plasticine/status.png)
 
 Plasticine is an open source client of Elasticsearch , support Elasticsearch versions : 1.3,1.4
 
