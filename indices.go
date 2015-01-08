@@ -20,6 +20,23 @@ func (s *Server) Indices() *IndicesApi {
 	return &IndicesApi{s}
 }
 
+//delete
+func (s *IndicesApi) Delete(index ...string) (string, error) {
+	var path = getPath(strings.Join(index, ","))
+	return Delete(s.server.getUrl(path, ""), s.server.hr).String()
+}
+
+//delete
+func (s *IndicesApi) Exists(index, _type string) (bool, error) {
+	var path = getPath(index, _type)
+	status, err := Head(s.server.getUrl(path, ""), s.server.hr).GetStatus()
+	if status == "200" {
+		return true, err
+	} else {
+		return false, err
+	}
+}
+
 //status
 func (s *IndicesApi) Status(index ...string) (string, error) {
 	var path = getPath(strings.Join(index, ","), "_status")

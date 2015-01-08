@@ -203,6 +203,13 @@ func (c *context) excute() (*http.Response, error) {
 	}
 	return resp, nil
 }
+func (c *context) GetStatus() (string, error) {
+	resp, err := c.excute()
+	if err != nil {
+		return "", err
+	}
+	return resp.Status, nil
+}
 
 // String returns the body string in response.
 // it calls Response inner.
