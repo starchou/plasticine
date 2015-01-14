@@ -37,6 +37,11 @@ func (s *Server) GetSource(index string, _type string, id string, args map[strin
 	}
 	return err
 }
+func (s *Server) Get(index string, _type string, id string, args map[string]interface{}) (*SearchResult, error) {
+	ctx := Get(s.getUrl(getPath(index, _type, id), ""), s.hr)
+	ctx.setParams(args)
+	return ctx.GetSearch()
+}
 
 //
 func (s *Server) Delete(index string, _type string, id string, args map[string]interface{}) (*BaseResponse, error) {
