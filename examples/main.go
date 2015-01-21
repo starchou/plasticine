@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	es "github.com/starchou/plasticine"
@@ -20,6 +21,25 @@ func main() {
 	//Update
 	user.Name = "chou"
 	s.Index("plasticine", "user", strconv.Itoa(user.Id), nil, user)
+
+	//Get
+	res, _ := s.Get("plasticine", "user", "1", nil)
+	fmt.Println(res.Found)
+
+	//MGet
+	// args := make(map[string]interface{})
+	// args["_index"] = "plasticine"
+	// args["_type"] = "user"
+	// args["_id"] = "1"
+	// args2 := make(map[string]interface{})
+	// args2["_index"] = "plasticine"
+	// args2["_type"] = "user"
+	// args2["_id"] = "2"
+	v := make(map[string]interface{})
+	v["docs"] = es.Array(es.Doc().Index("plasticine").Type("user").Id("1"),
+		es.Doc().Index("plasticine").Type("user").Id("2")) //es.Array(args, args2)
+	result, _ := s.MultiGet("", "", "", v)
+	fmt.Println(result)
 
 	//Delete
 	s.Delete("plasticine", "user", "1", nil)

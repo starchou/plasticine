@@ -33,19 +33,47 @@ func Boost(v interface{}) interface{} {
 	return j
 }
 
-//0 index ,1 type, 2 id
-func Doc(v ...string) interface{} {
-	js := simplejson.New()
-	if len(v) > 0 {
-		js.Set("_index", v[0])
+func Array(v ...interface{}) []interface{} {
+	return v
+}
+
+type DocDsl struct {
+	*simplejson.Json
+}
+
+func Doc() *DocDsl {
+	return &DocDsl{simplejson.New()}
+}
+func (d *DocDsl) Index(v string) *DocDsl {
+	d.Set("_index", v)
+	return d
+}
+func (d *DocDsl) Type(v string) *DocDsl {
+	d.Set("_type", v)
+	return d
+}
+func (d *DocDsl) Id(v string) *DocDsl {
+	d.Set("_id", v)
+	return d
+}
+func (d *DocDsl) Fileds(v ...string) *DocDsl {
+	d.Set("fields", v)
+	return d
+}
+func (d *DocDsl) Source(v interface{}) *DocDsl {
+	d.Set("_source", v)
+	return d
+}
+func (d *DocDsl) Routing(v string) *DocDsl {
+	d.Set("_routing", v)
+	return d
+}
+func (d *DocDsl) Encode() []byte {
+	b, err := d.Bytes()
+	if err != nil {
+		panic(err)
 	}
-	if len(v) > 1 {
-		js.Set("_type", v[1])
-	}
-	if len(v) > 2 {
-		js.Set("_id", v[2])
-	}
-	return js
+	return b
 }
 
 //http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html

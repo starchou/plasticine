@@ -37,10 +37,31 @@ func (s *Server) GetSource(index string, _type string, id string, args map[strin
 	}
 	return err
 }
-func (s *Server) Get(index string, _type string, id string, args map[string]interface{}) (*SearchResult, error) {
+
+//Get
+func (s *Server) Get(index string, _type string, id string, args map[string]interface{}) (*BaseResponse, error) {
 	ctx := Get(s.getUrl(getPath(index, _type, id), ""), s.hr)
 	ctx.setParams(args)
-	return ctx.GetSearch()
+	return ctx.GetBaseResponse()
+}
+
+//Multi GET API
+func (s *Server) MultiGet(index string, _type string, id string, args map[string]interface{}) ([]BaseResponse, error) {
+	ctx := Get(s.getUrl(getPath(index, _type, id, "_mget"), ""), s.hr)
+	ctx.setData(args)
+	body, err := ctx.Bytes()
+	if err != nil {
+		return nil, err
+	}
+	var docs struct {
+		Docs []BaseResponse `json:"docs"`
+	}
+	jsonErr := json.Unmarshal(body, &docs)
+	if jsonErr != nil {
+		return nil, jsonErr
+	} else {
+		return docs.Docs, nil
+	}
 }
 
 //

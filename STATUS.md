@@ -11,7 +11,7 @@ Here's the current API status.
 - [x] Delete
 - [x] Delete By Query
 - [x] Update
-- [ ] Multi Get
+- [x] Multi Get
 - [ ] Bulk
 - [ ] Bulk UDP
 - [ ] Term vectors

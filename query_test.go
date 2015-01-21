@@ -267,8 +267,8 @@ func Test_MatchAll(t *testing.T) {
 }
 func Test_MoreLikeThis(t *testing.T) {
 	s := MoreLikeThis().Fields("name.first", "name.last").Docs(
-		Doc("yn", "Info", "2"),
-		Doc("sc", "Lemma", "1"),
+		Doc().Index("yn").Type("Info").Id("2"),
+		Doc().Index("sc").Type("Lemma").Id("1"),
 	).Ids("1", "2").MinTermFreq(2).MaxQueryTerms(12)
 	b := s.Encode()
 	got := string(b)
